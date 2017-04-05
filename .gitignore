@@ -1,33 +1,130 @@
-# Object files
-*.o
-*.ko
-*.obj
-*.elf
-
-# Precompiled Headers
-*.gch
-*.pch
-
-# Libraries
-*.lib
-*.a
-*.la
-*.lo
-
-# Shared objects (inc. Windows DLLs)
-*.dll
-*.so
-*.so.*
-*.dylib
-
-# Executables
-*.exe
-*.out
-*.app
-*.i*86
-*.x86_64
-*.hex
-
-# Debug files
-*.dSYM/
-*.su
+#include<stdio.h>
+#include<stdlib.h>
+#include<string.h>
+#include<time.h>
+#define T 3
+#define t 21
+void jogo(char matriz[][T],char player1[], char player2[]);
+int main () {
+    int z, i, j;
+    char jVelha[T][T]={0}, nome1[t], nome2[t]={'c','o','m','p','u','t','a','d','o','r'}, matriz[T][T], n1='X', op;
+    srand(time(NULL));
+    do{
+        printf("Bem vindo ao JOGO DA VELHA!\nSelecione uma opcao:\n1-Jogar\n2-Sair\n");fflush(stdin);
+        op=getchar();fflush(stdin);
+        system("cls");
+        while(op!='1'&&op!='2'){
+            printf("OPCAO INVALIDA!\nSelecione uma opcao valida:\n1-Jogar\n2-Sair\n");fflush(stdin);
+            op=getchar();fflush(stdin);
+            system("cls");
+        }
+        switch(op){
+        case'1':
+            printf("1-Dois jogadores\n2-Um jogador\nDigite sua opcao:");
+            scanf("%d",&z);fflush(stdin);
+            system("cls");
+            while(z!=1&&z!=2){
+                printf("OPCAO INVALIDA!\nSelecione uma opcao valida:\n1-Dois jogadores\n2-Um jogador\nDigite sua opcao:");fflush(stdin);
+                scanf("%d",&z);fflush(stdin);
+                system("cls");
+            }
+            if(z==1){
+                system("cls");
+                printf("Digite o nome do primeiro jogador(a)\n");fflush(stdin);
+                gets(nome1);
+                printf("Digite o nome do segundo jogador(a)\n");
+                gets(nome2);
+                system("cls");
+                printf("%s - 'X'\n",nome1);
+                printf("%s - 'O'\n",nome2);
+                printf("Sorteando quem vai comecar....\n");
+                system("pause");
+                system("cls");
+                z=rand()%2;
+                if(z==0){
+                    printf("%s comeca\n",nome1);
+                    jogo(jVelha,nome1,nome2);
+                }
+                else{
+                    printf("%s comeca\n",nome2);
+                    jogo(jVelha,nome2,nome1);
+                }
+            }
+            else
+                printf("Digite o se nome\n");fflush(stdin);
+                gets(nome1);
+                system("cls");
+                printf("%s - 'X'\n",nome1);
+                printf("%s - 'O'\n",nome2);
+                printf("Sorteando quem vai comecar....\n");
+                system("pause");
+                system("cls");
+                z=rand()%2;
+                if(z==0){
+                    printf("%s comeca\n",nome1);
+                    jogo(jVelha,nome1,nome2);
+                }
+                else{
+                    printf("%s comeca\n",nome2);
+                    jogo(jVelha,nome2,nome1);
+                }
+            break;
+        case'2':
+            break;
+        default:printf("Opcao invalida\n");
+        }
+    }while(op!='2');
+    system("pause");
+    return 0;
+    }
+void jogo(char matriz[][T],char player1[t], char player2[t]){
+    int i, j, l, c, k;
+    for(k=0;k<9;k++){
+        for(i=0;i<T;i++){
+            for(j=0;j<T;j++){
+                if(matriz[i][j]=='X'||matriz[i][j]=='O')
+                printf("%c",matriz[i][j]);
+                else
+                    if(i<T-1)
+                        printf("_");
+                    else
+                        printf(" ");
+                if(j<T-1)
+                    printf("|");
+            }
+            printf("\n");
+        }
+        if(k%2==0){
+            printf("%s eh sua vez de jogar.\n",player1);
+            printf("Informe a linha: \n");
+            scanf("%d",&l);
+            printf("Informe a coluna: \n");
+            scanf("%d",&c);
+            while(l>T-1||c>T-1||l<0||c<0){
+                printf("Opcao invalida, escolha o local da jogada entre 0<=linha<=2  e  0<=coluna<=2\n");
+                printf("\n%s jogue novamente.\n",player1);
+                printf("Informe a linha: \n");
+                scanf("%d",&l);
+                printf("Informe a coluna: \n");
+                scanf("%d",&c);
+            }
+            matriz[l][c]='X';
+        }
+        else{
+            printf("%s eh sua vez de jogar.\n",player2);
+            printf("Informe a linha: \n");
+            scanf("%d",&l);
+            printf("Informe a coluna: \n");
+            scanf("%d",&c);
+            while(l>T-1||c>T-1||l<0||c<0){
+                printf("Opcao invalida, escolha o local da jogada entre 0<=linha<=2  e  0<=coluna<=2\n");
+                printf("\n%s eh sua vez de jogar.\n",player2);
+                printf("Informe a linha: \n");
+                scanf("%d",&l);
+                printf("Informe a coluna: \n");
+                scanf("%d",&c);
+            }
+            matriz[l][c]='O';
+        }
+    }
+}
