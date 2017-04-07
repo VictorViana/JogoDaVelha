@@ -8,9 +8,9 @@
 void jogo(char matriz[][T],char player1[], char player2[], int z);//PRINT DO JOGO +JOGADAS DE CADA JOGADOR
 char ganhou(char matriz[][T],char y);//VERIFICA SE ALGUÉM GANHOU APOS A JOGADA
 void verifica(char matriz[][T], int *l, int *c);//VERIFICA SE O LOCAL ESCOLHIDO JA ESTA PREENCHIDO
-void jogo1(char matriz[][T],char player1[t], int z, int comp);
-void maquina(char matriz[][T], char letra);
-int main () {
+void jogo1(char matriz[][T],char player1[t], int z, int comp);//PLAYER VS CPU MODO FACIL
+void maquina(char matriz[][T], char letra);//CPU NIVEL FACIL
+int main () {// INICIO MAIN
     int z, i, j, comp=0;
     char jVelha[T][T]={0}, nome1[t], nome2[t]={'c','o','m','p','u','t','a','d','o','r'}, matriz[T][T], n1='X', op;
     srand(time(NULL));
@@ -73,7 +73,7 @@ int main () {
 					scanf("%d",&z);fflush(stdin);
 					system("cls");
 				}
-				if(z==1){
+				if(z==1){//INICIO UM JOGADOR - FACIL
 					printf("Digite o seu nome\n");fflush(stdin);
 					gets(nome1);
 					system("cls");
@@ -92,6 +92,27 @@ int main () {
 						printf("%s comeca\n",nome2);
 						Sleep(1500);
 						jogo1(jVelha,nome1, z, comp=1);
+					}
+				}
+				else{//INICIO UM JOGADOR - DIFICIL
+					printf("Digite o seu nome\n");fflush(stdin);
+					gets(nome1);
+					system("cls");
+					printf("%s - 'X'\n",nome1);
+					printf("%s - 'O'\n",nome2);
+					printf("Sorteando quem vai comecar....\n");
+					Sleep(1500);
+					system("cls");
+					z=rand()%2;
+					if(z==0){
+					    printf("%s comeca\n",nome1);
+						Sleep(1500);
+						jogo2(jVelha,nome1, z, comp);
+					}
+					else{
+						printf("%s comeca\n",nome2);
+						Sleep(1500);
+						jogo2(jVelha,nome1, z, comp=1);
 					}
 				}
 			}
@@ -269,8 +290,9 @@ void jogo1(char matriz[][T],char player1[t], int z, int comp){
         }
     }
 }
-
-
+void jogo2(char matriz[][T],char player1[t], int z, int comp){
+	//Tentar fazer no jogo1 passando mais uma variavel como condição para o jogo mandar para os dois niveis
+}
 void maquina(char matriz[][T], char letra){
 	int i, j, ganha=1;
 	while (ganha == 1) {
