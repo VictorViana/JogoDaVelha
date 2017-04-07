@@ -66,35 +66,35 @@ int main () {
                 }
             }//FIM 2 JOGADORES
             else{//INICIO UM JOGADOR
-                printf("Dificuldade\n1-Facil\n2-Dificil\n");
-                scanf("%d",&z);
-                while(z!=1&&z!=2){
-                    printf("OPCAO INVALIDA!\nSelecione uma opcao valida:\n1-Facil\n2-Dificil\nDigite sua opcao: ");fflush(stdin);
-                    scanf("%d",&z);fflush(stdin);
-                    system("cls");
-                }
-                if(z==1){
-                    printf("Digite o seu nome\n");fflush(stdin);
-                    gets(nome1);
-                    system("cls");
-                    printf("%s - 'X'\n",nome1);
-                    printf("%s - 'O'\n",nome2);
-                    printf("Sorteando quem vai comecar....\n");
-                    Sleep(1500);
-                    system("cls");
-                    z=rand()%2;
-                    if(z==0){
-                        printf("%s comeca\n",nome1);
-                        Sleep(1500);
-                        jogo1(jVelha,nome1, z, comp);
-                    }
-                    else{
-                        printf("%s comeca\n",nome2);
-                        Sleep(1500);
-                        jogo1(jVelha,nome1, z, comp=1);
-                    }
-                }
-            }
+				printf("Dificuldade\n1-Facil\n2-Dificil\n");
+				scanf("%d",&z);
+				while(z!=1&&z!=2){
+					printf("OPCAO INVALIDA!\nSelecione uma opcao valida:\n1-Facil\n2-Dificil\nDigite sua opcao: ");fflush(stdin);
+					scanf("%d",&z);fflush(stdin);
+					system("cls");
+				}
+				if(z==1){
+					printf("Digite o seu nome\n");fflush(stdin);
+					gets(nome1);
+					system("cls");
+					printf("%s - 'X'\n",nome1);
+					printf("%s - 'O'\n",nome2);
+					printf("Sorteando quem vai comecar....\n");
+					Sleep(1500);
+					system("cls");
+					z=rand()%2;
+					if(z==0){
+					    printf("%s comeca\n",nome1);
+						Sleep(1500);
+						jogo1(jVelha,nome1, z, comp);
+					}
+					else{
+						printf("%s comeca\n",nome2);
+						Sleep(1500);
+						jogo1(jVelha,nome1, z, comp=1);
+					}
+				}
+			}
             break;//FIM CASO UM
         case'2'://SAIR
             break;
@@ -192,8 +192,8 @@ void jogo(char matriz[][T],char player1[t], char player2[t], int z){
     }
 }
 void jogo1(char matriz[][T],char player1[t], int z, int comp){
-    int i, j, l, c, k, ganha;
-    char letra;
+	int i, j, l, c, k, ganha;
+	char letra;
     for(k=0;k<9;k++){
         for(i=0;i<T;i++){
             for(j=0;j<T;j++){
@@ -209,15 +209,27 @@ void jogo1(char matriz[][T],char player1[t], int z, int comp){
             }
             printf("\n");
         }
-        if(comp==1){
-            letra='O';
-            printf("eh a vez do computador jogar.\n");
-            maquina(matriz, letra);
-            ganha=ganhou(matriz, letra);
-            comp=0;
-        }
+		if(comp==1){
+			comp=0;
+			letra='O';
+			printf("eh a vez do computador jogar.\n");
+			maquina(matriz, letra);
+			ganha=ganhou(matriz, letra);
+			if(ganha==1){
+                printf("%s GANHOU!!!\n",player1);
+                system("pause");
+                system("cls");
+                break;
+            }
+            if(ganha==2){
+                printf("DEU VELHA!!\n");
+                system("pause");
+                system("cls");
+                break;
+            }
+		}
         else{
-            comp=1;
+			comp=1;
             printf("%s eh sua vez de jogar.\n",player1);
             printf("Informe a linha: \n");
             scanf("%d",&l);
@@ -233,7 +245,7 @@ void jogo1(char matriz[][T],char player1[t], int z, int comp){
             }
             verifica(matriz, &l, &c);
             system("cls");
-            matriz[l][c]='X';
+			matriz[l][c]='X';
             ganha=ganhou(matriz,matriz[l][c]);
             if(ganha==1){
                 printf("%s GANHOU!!!\n",player1);
@@ -250,17 +262,17 @@ void jogo1(char matriz[][T],char player1[t], int z, int comp){
         }
     }
 }
- 
- 
+
+
 void maquina(char matriz[][T], char letra){
-    int i,j, ganha;
-    for(i=0;i<T;i=rand()%3-1){
-        for(j=0;j<T;j=rand()%3-1){
-            if(matriz[i][j]==' ')
-                matriz[i][j]=letra;
-            break;
-        }
-    }
+	int i,j, ganha;
+    for(i=0;i<T;i=rand()%3){
+		for(j=0;j<T;j=rand()%3){
+			if(matriz[i][j]==' ')
+				matriz[i][j]=letra;
+			break;
+		}
+	}
     system("cls");
 }
 char ganhou(char matriz[][T], char y){
