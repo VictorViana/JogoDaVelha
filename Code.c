@@ -213,10 +213,17 @@ void jogo1(char matriz[][T],char player1[t], int z, int comp){
 			comp=0;
 			letra='O';
 			printf("eh a vez do computador jogar.\n");
+			Sleep(1000);
+			printf("*pensando...*\n");
+			Sleep(1500);
+			printf("...\n");
+			Sleep(1500);
+			printf("  ...\n");
+			Sleep(1500);
 			maquina(matriz, letra);
 			ganha=ganhou(matriz, letra);
 			if(ganha==1){
-                printf("%s GANHOU!!!\n",player1);
+                printf("O COMPUTADOR GANHOU!!!\n");
                 system("pause");
                 system("cls");
                 break;
@@ -265,15 +272,16 @@ void jogo1(char matriz[][T],char player1[t], int z, int comp){
 
 
 void maquina(char matriz[][T], char letra){
-	int i,j, ganha;
-    for(i=0;i<T;i=rand()%3){
-		for(j=0;j<T;j=rand()%3){
-			if(matriz[i][j]==' ')
-				matriz[i][j]=letra;
+	int i, j, ganha=1;
+	while (ganha == 1) {
+		i = rand() % 3;
+		j = rand() % 3;
+		if (matriz[i][j] == ' ') {
+			matriz[i][j] = letra;
 			break;
 		}
 	}
-    system("cls");
+	system("cls");
 }
 char ganhou(char matriz[][T], char y){
     int i, j,contC=0, contL=0, contDP=0, DS, contDS=0, contVelha=0;
