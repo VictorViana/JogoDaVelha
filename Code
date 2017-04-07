@@ -2,15 +2,19 @@
 #include<stdlib.h>
 #include<string.h>
 #include<time.h>
+#include<Windows.h>
 #define T 3
 #define t 21
-void jogo(char matriz[][T],char player1[], char player2[]);
+void jogo(char matriz[][T],char player1[], char player2[], int z);//Print do jogo + jogadas de cada jogador
+char ganhou(char matriz[][T],char y);//Verifica se alguem ganhou
+void verifica(char matriz[][T], int *l, int *c);
 int main () {
     int z, i, j;
     char jVelha[T][T]={0}, nome1[t], nome2[t]={'c','o','m','p','u','t','a','d','o','r'}, matriz[T][T], n1='X', op;
     srand(time(NULL));
     do{
-        printf("Bem vindo ao JOGO DA VELHA!\nSelecione uma opcao:\n1-Jogar\n2-Sair\n");fflush(stdin);
+ 
+        printf("Bem vindo ao JOGO DA VELHA!\n\n1-Jogar\n2-Sair\n");fflush(stdin);
         op=getchar();fflush(stdin);
         system("cls");
         while(op!='1'&&op!='2'){
@@ -20,7 +24,12 @@ int main () {
         }
         switch(op){
         case'1':
-            printf("1-Dois jogadores\n2-Um jogador\nDigite sua opcao:");
+            for(i=0;i<T;i++){
+                for(j=0;j<T;j++){
+                    jVelha[i][j]=' ';
+                }
+            }
+            printf("1-Dois jogadores\n2-Um jogador\n\nDigite sua opcao:");
             scanf("%d",&z);fflush(stdin);
             system("cls");
             while(z!=1&&z!=2){
@@ -38,20 +47,24 @@ int main () {
                 printf("%s - 'X'\n",nome1);
                 printf("%s - 'O'\n",nome2);
                 printf("Sorteando quem vai comecar....\n");
-                system("pause");
+                Sleep(1500);
                 system("cls");
                 z=rand()%2;
                 if(z==0){
-                    printf("%s comeca\n",nome1);
-                    jogo(jVelha,nome1,nome2);
+                    printf("%s COMECA!!\n",nome1);
+                    Sleep(1500);
+                    system("cls");
+                    jogo(jVelha,nome1,nome2,z);
                 }
                 else{
-                    printf("%s comeca\n",nome2);
-                    jogo(jVelha,nome2,nome1);
+                    printf("%s COMECA!!\n",nome2);
+                    Sleep(1500);
+                    system("cls");
+                    jogo(jVelha,nome2,nome1,z);
                 }
             }
-            else
-                printf("Digite o se nome\n");fflush(stdin);
+            else{
+                printf("Digite o seu nome\n");fflush(stdin);
                 gets(nome1);
                 system("cls");
                 printf("%s - 'X'\n",nome1);
@@ -62,12 +75,13 @@ int main () {
                 z=rand()%2;
                 if(z==0){
                     printf("%s comeca\n",nome1);
-                    jogo(jVelha,nome1,nome2);
+                    jogo(jVelha,nome1,nome2,z);
                 }
                 else{
                     printf("%s comeca\n",nome2);
-                    jogo(jVelha,nome2,nome1);
+                    jogo(jVelha,nome2,nome1,z);
                 }
+            }
             break;
         case'2':
             break;
@@ -77,8 +91,8 @@ int main () {
     system("pause");
     return 0;
     }
-void jogo(char matriz[][T],char player1[t], char player2[t]){
-    int i, j, l, c, k;
+void jogo(char matriz[][T],char player1[t], char player2[t], int z){
+    int i, j, l, c, k, ganha;
     for(k=0;k<9;k++){
         for(i=0;i<T;i++){
             for(j=0;j<T;j++){
@@ -108,7 +122,25 @@ void jogo(char matriz[][T],char player1[t], char player2[t]){
                 printf("Informe a coluna: \n");
                 scanf("%d",&c);
             }
-            matriz[l][c]='X';
+            verifica(matriz, &l, &c);
+            system("cls");
+            if(z==0)
+                matriz[l][c]='X';
+            else
+                matriz[l][c]='O';
+            ganha=ganhou(matriz,matriz[l][c]);
+            if(ganha==1){
+                printf("%s GANHOU!!!\n",player1);
+                system("pause");
+                system("cls");
+                break;
+            }
+            if(ganha==2){
+                printf("DEU VELHA!!\n");
+                system("pause");
+                system("cls");
+                break;
+            }
         }
         else{
             printf("%s eh sua vez de jogar.\n",player2);
@@ -124,7 +156,65 @@ void jogo(char matriz[][T],char player1[t], char player2[t]){
                 printf("Informe a coluna: \n");
                 scanf("%d",&c);
             }
-            matriz[l][c]='O';
+            verifica(matriz, &l, &c);
+            system("cls");
+            if(z==0)
+                matriz[l][c]='O';
+            else
+                matriz[l][c]='X';
+            ganha=ganhou(matriz,matriz[l][c]);
+            if(ganha==1){
+                printf("%s GANHOU!!!\n",player2);
+                system("pause");
+                system("cls");
+                break;
+            }
+            if(ganha==2){
+                printf("DEU VELHA!!\n");
+                system("pause");
+                system("cls");
+                break;
+            }
         }
+    }
+}
+char ganhou(char matriz[][T], char y){
+    int i, j,contC=0, contL=0, contDP=0, DS, contDS=0, contVelha=0;
+    for(i=0;i<T;i++){
+        for(j=0;j<T;j++){
+            DS=i+j;
+            if(matriz[i][j]==y)
+                contL=contL+1;
+            if(matriz[j][i]==y)
+                contC=contC+1;
+            if(matriz[j][j]==y)
+                contDP=contDP+1;
+            if(DS==2)
+                if(matriz[i][j]==y)
+                    contDS=contDS+1;
+        }
+        if(contC==3||contL==3||contDP==3||contDS==3)
+            return 1;
+        contC=0;
+        contL=0;
+        contDP=0;
+    }
+    for(i=0;i<T;i++){
+        for(j=0;j<T;j++){
+            if(matriz[i][j]=='X'||matriz[i][j]=='O')
+                contVelha=contVelha+1;
+        }
+    }
+    if(contVelha==9)
+        return 2;
+    return 0;
+}
+void verifica(char matriz[][T], int *l, int *c){
+    if(matriz[*l][*c]=='X'||matriz[*l][*c]=='O'){
+        printf("Este local ja esta preenchido, por favor escolha outro local\n");
+        printf("Informe a linha: \n");
+        scanf("%d",&*l);
+        printf("Informe a coluna: \n");
+        scanf("%d",&*c);
     }
 }
