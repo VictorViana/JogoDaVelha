@@ -521,7 +521,7 @@ void printJogo(char matriz[][T]){//FUNCIONANDO ---------- OK
 }
 void BuscaEspaco(char matriz[][T], int i){
 	int  j;
-	for(j=0;j<T;j++){
+	for(j=2;j>0;j--){
 		if(matriz[i][j]==' '){
 			matriz[i][j]='O';
 			break;
