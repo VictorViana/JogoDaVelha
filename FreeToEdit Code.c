@@ -14,6 +14,7 @@ void Dificil(char matriz[][T],char player1[t], int z, int comp);//NIVEL DIFICIL,
 void printJogo(char matriz[][T]);// PRINTA O JOGO NA TELA ---------- OK
 void maquinaD(char matriz[][T], char *g);//NIVEL DIFICIL, NÃO FUNCIONANDO
 void maquinaD1(char matriz[][T],char *g);//NIVEL DIFICIL, NÃO FUNCIONANDO
+void BuscaEspaco(char matriz[][T], int i);
 int main () {// INICIO MAIN
     int z, i, j, comp=0;
     char jVelha[T][T]={0}, nome1[t], nome2[t]={'c','o','m','p','u','t','a','d','o','r'}, matriz[T][T], n1='X', op;
@@ -130,7 +131,7 @@ int main () {// INICIO MAIN
     return 0;
     }//FIM MAIN
 void DoisJogadores(char matriz[][T],char player1[t], char player2[t], int z){//FUNCIONANDO ---------- OK
-    int i, j, l, c, k, ganha;
+    int  l, c, k, ganha;
     for(k=0;k<9;k++){
         printJogo(matriz);
         if(k%2==0){
@@ -204,7 +205,7 @@ void DoisJogadores(char matriz[][T],char player1[t], char player2[t], int z){//F
     }
 }
 void Facil(char matriz[][T],char player1[t], int z, int comp){//FUNCIONANDO ---------- OK
-	int i, j, l, c, k, ganha;
+	int  l, c, k, ganha;
 	char letra;
     for(k=0;k<9;k++){
         printJogo(matriz);
@@ -269,8 +270,8 @@ void Facil(char matriz[][T],char player1[t], int z, int comp){//FUNCIONANDO ----
     }
 }
 void Dificil(char matriz[][T],char player1[t], int z, int comp){//NÃO FUNCIONA
-	char a='X', b='O', letra, g='0';
-	int i, j, l, c, k, f, ganha, e=1, d=1;
+	char letra, g='0';
+	int l, c, k, ganha;
     for(k=0;k<9;k++){
         printJogo(matriz);
 		if(comp==1){
@@ -353,17 +354,15 @@ void maquinaD(char matriz[][T], char *g){//NÃO FUNCIONA
 	int i, j, x, y, contO=0, contX=0, contCO=0,contCX=0,contDPO=0, contDPX=0, contDSO=0, contDSX=0, DS;
 	for(i=0;i<T;i++){
 		for(j=0;j<T;j++){
-			if(matriz[i][j]==' '){
-				y=j;
-				x=i;
-			}
+			x=i;
+			y=j;
 			DS=i+j;
 			if(matriz[i][j]=='O')
 				contO=contO+1;
 			if(matriz[i][j]=='X')
 				contX=contX+1;
 			if(contO==2&&contX==0){
-				matriz[x][y]='O';
+				BuscaEspaco(matriz, i);
 				*g='1';
 				break;
 			}
@@ -372,7 +371,7 @@ void maquinaD(char matriz[][T], char *g){//NÃO FUNCIONA
 			if(matriz[j][i]=='X')
 				contCX=contCX+1;
 			if(contCO==2&&contCX==0){
-				matriz[y][x]='O';
+				BuscaEspaco(matriz, i);
 				*g='1';
 				break;
 			}
@@ -381,7 +380,7 @@ void maquinaD(char matriz[][T], char *g){//NÃO FUNCIONA
 			if(matriz[j][j]=='X')
 				contDPX=contDPX+1;
 			if(contDPO==2&&contDPX==0){
-				matriz[y][y]='O';
+				BuscaEspaco(matriz, i);
 				*g='1';
 				break;
 			}
@@ -391,7 +390,7 @@ void maquinaD(char matriz[][T], char *g){//NÃO FUNCIONA
 				if(matriz[i][j]=='X')
 					contDSX=contDSX+1;
 				if(contDSO==2&&contDSX==0){
-					matriz[x][y]='O';
+					BuscaEspaco(matriz, i);
 					*g='1';
 					break;
 				}
@@ -405,25 +404,21 @@ void maquinaD(char matriz[][T], char *g){//NÃO FUNCIONA
 		contCX=0;
 		contDPO=0;
 		contDPX=0;
-		x=0;
-		y=0;
 	}
 }
 void maquinaD1(char matriz[][T], char *g){//NÃO FUNCIONA
 	int i, j, x, y, contO=0, contX=0, contCO=0,contCX=0,contDPO=0, contDPX=0, contDSO=0, contDSX=0, DS;
 	for(i=0;i<T;i++){
 		for(j=0;j<T;j++){
-			if(matriz[i][j]==' '){
-				y=j;
-				x=i;
-			}
+			x=i;
+			y=j;
 			DS=i+j;
 			if(matriz[i][j]=='O')
 				contO=contO+1;
 			if(matriz[i][j]=='X')
 				contX=contX+1;
 			if(contO==0&&contX==2){
-				matriz[x][y]='O';
+				BuscaEspaco(matriz, i);
 				*g='1';
 				break;
 			}
@@ -432,7 +427,7 @@ void maquinaD1(char matriz[][T], char *g){//NÃO FUNCIONA
 			if(matriz[j][i]=='X')
 				contCX=contCX+1;
 			if(contCO==0&&contCX==2){
-				matriz[y][x]='O';
+				BuscaEspaco(matriz, i);
 				*g='1';
 				break;
 			}
@@ -441,7 +436,7 @@ void maquinaD1(char matriz[][T], char *g){//NÃO FUNCIONA
 			if(matriz[j][j]=='X')
 				contDPX=contDPX+1;
 			if(contDPO==0&&contDPX==2){
-				matriz[y][y]='O';
+				BuscaEspaco(matriz, i);
 				*g='1';
 				break;
 			}
@@ -451,7 +446,7 @@ void maquinaD1(char matriz[][T], char *g){//NÃO FUNCIONA
 				if(matriz[i][j]=='X')
 					contDSX=contDSX+1;
 				if(contDSO==0&&contDSX==2){
-					matriz[x][y]='O';
+					BuscaEspaco(matriz, i);
 					*g='1';
 					break;
 				}
@@ -465,8 +460,6 @@ void maquinaD1(char matriz[][T], char *g){//NÃO FUNCIONA
 		contCX=0;
 		contDPO=0;
 		contDPX=0;
-		x=0;
-		y=0;
 	}
 }
 char ganhou(char matriz[][T], char y){// FUNCIONANDO ---------- OK
@@ -524,5 +517,14 @@ void printJogo(char matriz[][T]){//FUNCIONANDO ---------- OK
 				printf("|");
 		}
 		printf("\n");
+	}
+}
+void BuscaEspaco(char matriz[][T], int i){
+	int  j;
+	for(j=0;j<T;j++){
+		if(matriz[i][j]==' '){
+			matriz[i][j]='O';
+			break;
+		}
 	}
 }
