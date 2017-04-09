@@ -10,6 +10,8 @@ char ganhou(char matriz[][T],char y);//VERIFICA SE ALGUÉM GANHOU APOS A JOGADA
 void verifica(char matriz[][T], int *l, int *c);//VERIFICA SE O LOCAL ESCOLHIDO JA ESTA PREENCHIDO
 void jogo1(char matriz[][T],char player1[t], int z, int comp);//PLAYER VS CPU MODO FACIL
 void maquina(char matriz[][T], char letra);//CPU NIVEL FACIL
+void jogo2(char matriz[][T],char player1[t], int z, int comp);
+void printJogo(char matriz[][T]);
 int main () {// INICIO MAIN
     int z, i, j, comp=0;
     char jVelha[T][T]={0}, nome1[t], nome2[t]={'c','o','m','p','u','t','a','d','o','r'}, matriz[T][T], n1='X', op;
@@ -128,20 +130,7 @@ int main () {// INICIO MAIN
 void jogo(char matriz[][T],char player1[t], char player2[t], int z){
     int i, j, l, c, k, ganha;
     for(k=0;k<9;k++){
-        for(i=0;i<T;i++){
-            for(j=0;j<T;j++){
-                if(matriz[i][j]=='X'||matriz[i][j]=='O')
-                printf("%c",matriz[i][j]);
-                else
-                    if(i<T-1)
-                        printf("_");
-                    else
-                        printf(" ");
-                if(j<T-1)
-                    printf("|");
-            }
-            printf("\n");
-        }
+        printJogo(matriz);
         if(k%2==0){
             printf("%s eh sua vez de jogar.\n",player1);
             printf("Informe a linha: \n");
@@ -216,20 +205,7 @@ void jogo1(char matriz[][T],char player1[t], int z, int comp){
 	int i, j, l, c, k, ganha;
 	char letra;
     for(k=0;k<9;k++){
-        for(i=0;i<T;i++){
-            for(j=0;j<T;j++){
-                if(matriz[i][j]=='X'||matriz[i][j]=='O')
-                printf("%c",matriz[i][j]);
-                else
-                    if(i<T-1)
-                        printf("_");
-                    else
-                        printf(" ");
-                if(j<T-1)
-                    printf("|");
-            }
-            printf("\n");
-        }
+        printJogo(matriz);
 		if(comp==1){
 			comp=0;
 			letra='O';
@@ -344,4 +320,21 @@ void verifica(char matriz[][T], int *l, int *c){
         printf("Informe a coluna: \n");
         scanf("%d",&*c);
     }
+}
+void printJogo(char matriz[][T]){
+	int i,j;
+	for(i=0;i<T;i++){
+		for(j=0;j<T;j++){
+			if(matriz[i][j]=='X'||matriz[i][j]=='O')
+				printf("%c",matriz[i][j]);
+			else
+			if(i<T-1)
+				printf("_");
+			else
+				printf(" ");
+			if(j<T-1)
+				printf("|");
+		}
+		printf("\n");
+	}
 }
