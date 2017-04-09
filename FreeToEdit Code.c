@@ -5,13 +5,15 @@
 #include<Windows.h>
 #define T 3
 #define t 21
-void jogo(char matriz[][T],char player1[], char player2[], int z);//PRINT DO JOGO +JOGADAS DE CADA JOGADOR
-char ganhou(char matriz[][T],char y);//VERIFICA SE ALGUÉM GANHOU APOS A JOGADA
-void verifica(char matriz[][T], int *l, int *c);//VERIFICA SE O LOCAL ESCOLHIDO JA ESTA PREENCHIDO
-void jogo1(char matriz[][T],char player1[t], int z, int comp);//PLAYER VS CPU MODO FACIL
-void maquina(char matriz[][T], char letra);//CPU NIVEL FACIL
-void jogo2(char matriz[][T],char player1[t], int z, int comp);
-void printJogo(char matriz[][T]);
+void DoisJogadores(char matriz[][T],char player1[], char player2[], int z);//PLAYER VS PLAYER ---------- OK
+char ganhou(char matriz[][T],char y);//VERIFICA SE ALGUÉM GANHOU APOS A JOGADA ---------- OK
+void verifica(char matriz[][T], int *l, int *c);//VERIFICA SE O LOCAL ESCOLHIDO JA ESTA PREENCHIDO ---------- OK
+void Facil(char matriz[][T],char player1[t], int z, int comp);//PLAYER VS CPU//MODO FACIL ---------- OK
+void maquinaAleatorio(char matriz[][T], char letra);//SORTEIA UM LOCAL ALEATORIO ---------- OK
+void Dificil(char matriz[][T],char player1[t], int z, int comp);//NIVEL DIFICIL, NÃO FUNCIONANDO
+void printJogo(char matriz[][T]);// PRINTA O JOGO NA TELA ---------- OK
+void maquinaD(char matriz[][T], char *g);//NIVEL DIFICIL, NÃO FUNCIONANDO
+void maquinaD1(char matriz[][T],char *g);//NIVEL DIFICIL, NÃO FUNCIONANDO
 int main () {// INICIO MAIN
     int z, i, j, comp=0;
     char jVelha[T][T]={0}, nome1[t], nome2[t]={'c','o','m','p','u','t','a','d','o','r'}, matriz[T][T], n1='X', op;
@@ -27,7 +29,7 @@ int main () {// INICIO MAIN
             system("cls");
         }
         switch(op){
-        case'1'://INICIO CASO UM
+        case'1'://INICIO CASO UM // ---------- OK
             for(i=0;i<T;i++){
                 for(j=0;j<T;j++){
                     jVelha[i][j]=' ';
@@ -58,16 +60,16 @@ int main () {// INICIO MAIN
                     printf("%s COMECA!!\n",nome1);
                     Sleep(1500);
                     system("cls");
-                    jogo(jVelha,nome1,nome2,z);
+                    DoisJogadores(jVelha,nome1,nome2,z);
                 }
                 else{
                     printf("%s COMECA!!\n",nome2);
                     Sleep(1500);
                     system("cls");
-                    jogo(jVelha,nome2,nome1,z);
+                    DoisJogadores(jVelha,nome2,nome1,z);
                 }
-            }//FIM 2 JOGADORES
-            else{//INICIO UM JOGADOR
+            }
+            else{//INICIO UM JOGADOR // ---------- OK
 				printf("Dificuldade\n1-Facil\n2-Dificil\n");
 				scanf("%d",&z);
 				while(z!=1&&z!=2){
@@ -75,7 +77,7 @@ int main () {// INICIO MAIN
 					scanf("%d",&z);fflush(stdin);
 					system("cls");
 				}
-				if(z==1){//INICIO UM JOGADOR - FACIL
+				if(z==1){//INICIO UM JOGADOR - FACIL // ---------- OK
 					printf("Digite o seu nome\n");fflush(stdin);
 					gets(nome1);
 					system("cls");
@@ -88,15 +90,15 @@ int main () {// INICIO MAIN
 					if(z==0){
 					    printf("%s comeca\n",nome1);
 						Sleep(1500);
-						jogo1(jVelha,nome1, z, comp);
+						Facil(jVelha,nome1, z, comp);
 					}
 					else{
 						printf("%s comeca\n",nome2);
 						Sleep(1500);
-						jogo1(jVelha,nome1, z, comp=1);
+						Facil(jVelha,nome1, z, comp=1);
 					}
 				}
-				else{//INICIO UM JOGADOR - DIFICIL
+				else{//INICIO UM JOGADOR - DIFICIL // NÃO FUNCIONANDO
 					printf("Digite o seu nome\n");fflush(stdin);
 					gets(nome1);
 					system("cls");
@@ -109,12 +111,12 @@ int main () {// INICIO MAIN
 					if(z==0){
 					    printf("%s comeca\n",nome1);
 						Sleep(1500);
-						jogo2(jVelha,nome1, z, comp);
+						Dificil(jVelha,nome1, z, comp);
 					}
 					else{
 						printf("%s comeca\n",nome2);
 						Sleep(1500);
-						jogo2(jVelha,nome1, z, comp=1);
+						Dificil(jVelha,nome1, z, comp=1);
 					}
 				}
 			}
@@ -127,23 +129,23 @@ int main () {// INICIO MAIN
     system("pause");
     return 0;
     }//FIM MAIN
-void jogo(char matriz[][T],char player1[t], char player2[t], int z){
+void DoisJogadores(char matriz[][T],char player1[t], char player2[t], int z){//FUNCIONANDO ---------- OK
     int i, j, l, c, k, ganha;
     for(k=0;k<9;k++){
         printJogo(matriz);
         if(k%2==0){
             printf("%s eh sua vez de jogar.\n",player1);
             printf("Informe a linha: \n");
-            scanf("%d",&l);
+            scanf("%d",&l);fflush(stdin);
             printf("Informe a coluna: \n");
-            scanf("%d",&c);
+            scanf("%d",&c);fflush(stdin);
             while(l>T-1||c>T-1||l<0||c<0){
                 printf("Opcao invalida, escolha o local da jogada entre 0<=linha<=2  e  0<=coluna<=2\n");
                 printf("\n%s jogue novamente.\n",player1);
                 printf("Informe a linha: \n");
-                scanf("%d",&l);
+                scanf("%d",&l);fflush(stdin);
                 printf("Informe a coluna: \n");
-                scanf("%d",&c);
+                scanf("%d",&c);fflush(stdin);
             }
             verifica(matriz, &l, &c);
             system("cls");
@@ -168,16 +170,16 @@ void jogo(char matriz[][T],char player1[t], char player2[t], int z){
         else{
             printf("%s eh sua vez de jogar.\n",player2);
             printf("Informe a linha: \n");
-            scanf("%d",&l);
+            scanf("%d",&l);fflush(stdin);
             printf("Informe a coluna: \n");
-            scanf("%d",&c);
+            scanf("%d",&c);fflush(stdin);
             while(l>T-1||c>T-1||l<0||c<0){
                 printf("Opcao invalida, escolha o local da jogada entre 0<=linha<=2  e  0<=coluna<=2\n");
                 printf("\n%s eh sua vez de jogar.\n",player2);
                 printf("Informe a linha: \n");
-                scanf("%d",&l);
+                scanf("%d",&l);fflush(stdin);
                 printf("Informe a coluna: \n");
-                scanf("%d",&c);
+                scanf("%d",&c);fflush(stdin);
             }
             verifica(matriz, &l, &c);
             system("cls");
@@ -201,7 +203,7 @@ void jogo(char matriz[][T],char player1[t], char player2[t], int z){
         }
     }
 }
-void jogo1(char matriz[][T],char player1[t], int z, int comp){
+void Facil(char matriz[][T],char player1[t], int z, int comp){//FUNCIONANDO ---------- OK
 	int i, j, l, c, k, ganha;
 	char letra;
     for(k=0;k<9;k++){
@@ -217,7 +219,7 @@ void jogo1(char matriz[][T],char player1[t], int z, int comp){
 			Sleep(1500);
 			printf("  ...\n");
 			Sleep(1500);
-			maquina(matriz, letra);
+			maquinaAleatorio(matriz, letra);
 			ganha=ganhou(matriz, letra);
 			if(ganha==1){
                 printf("O COMPUTADOR GANHOU!!!\n");
@@ -236,16 +238,16 @@ void jogo1(char matriz[][T],char player1[t], int z, int comp){
 			comp=1;
             printf("%s eh sua vez de jogar.\n",player1);
             printf("Informe a linha: \n");
-            scanf("%d",&l);
+            scanf("%d",&l);fflush(stdin);
             printf("Informe a coluna: \n");
-            scanf("%d",&c);
+            scanf("%d",&c);fflush(stdin);
             while(l>T-1||c>T-1||l<0||c<0){
                 printf("Opcao invalida, escolha o local da jogada entre 0<=linha<=2  e  0<=coluna<=2\n");
                 printf("\n%s eh sua vez de jogar.\n",player1);
                 printf("Informe a linha: \n");
-                scanf("%d",&l);
+                scanf("%d",&l);fflush(stdin);
                 printf("Informe a coluna: \n");
-                scanf("%d",&c);
+                scanf("%d",&c);fflush(stdin);
             }
             verifica(matriz, &l, &c);
             system("cls");
@@ -266,10 +268,76 @@ void jogo1(char matriz[][T],char player1[t], int z, int comp){
         }
     }
 }
-void jogo2(char matriz[][T],char player1[t], int z, int comp){
-	//Tentar fazer no jogo1 passando mais uma variavel como condição para o jogo mandar para os dois niveis
+void Dificil(char matriz[][T],char player1[t], int z, int comp){//NÃO FUNCIONA
+	char a='X', b='O', letra, g='0';
+	int i, j, l, c, k, f, ganha, e=1, d=1;
+    for(k=0;k<9;k++){
+        printJogo(matriz);
+		if(comp==1){
+			comp=0;
+			letra='O';
+			printf("eh a vez do computador jogar.\n");
+			Sleep(1000);
+			printf("*pensando...*\n");
+			Sleep(1500);
+			printf("...\n");
+			Sleep(1500);
+			printf("  ...\n");
+			Sleep(1500);
+			maquinaD(matriz, &g);
+			if(g=='0')
+				maquinaD1(matriz, &g);
+			if(g=='0')
+				maquinaAleatorio(matriz, letra);
+			ganha=ganhou(matriz, letra);
+			if(ganha==1){
+				printf("O COMPUTADOR GANHOU!!!\n");
+				system("pause");
+				system("cls");
+				break;
+			}
+			if(ganha==2){
+				printf("DEU VELHA!!\n");
+				system("pause");
+                system("cls");
+                break;
+				}
+		}
+		else{
+			comp=1;
+			printf("%s eh sua vez de jogar.\n",player1);
+			printf("Informe a linha: \n");
+			scanf("%d",&l);fflush(stdin);
+			printf("Informe a coluna: \n");
+			scanf("%d",&c);fflush(stdin);
+			while(l>T-1||c>T-1||l<0||c<0){
+				printf("Opcao invalida, escolha o local da jogada entre 0<=linha<=2  e  0<=coluna<=2\n");
+				printf("\n%s eh sua vez de jogar.\n",player1);
+				printf("Informe a linha: \n");
+				scanf("%d",&l);fflush(stdin);
+				printf("Informe a coluna: \n");
+				scanf("%d",&c);fflush(stdin);
+			}
+			verifica(matriz, &l, &c);
+			system("cls");
+			matriz[l][c]='X';
+			ganha=ganhou(matriz,matriz[l][c]);
+			if(ganha==1){
+				printf("%s GANHOU!!!\n",player1);
+				system("pause");
+				system("cls");
+				break;
+			}
+			if(ganha==2){
+				printf("DEU VELHA!!\n");
+			  system("pause");
+			  system("cls");
+			  break;
+			}
+		}
+	}
 }
-void maquina(char matriz[][T], char letra){
+void maquinaAleatorio(char matriz[][T], char letra){//FUNCIONANDO ---------- OK
 	int i, j, ganha=1;
 	while (ganha == 1) {
 		i = rand() % 3;
@@ -281,7 +349,127 @@ void maquina(char matriz[][T], char letra){
 	}
 	system("cls");
 }
-char ganhou(char matriz[][T], char y){
+void maquinaD(char matriz[][T], char *g){//NÃO FUNCIONA
+	int i, j, x, y, contO=0, contX=0, contCO=0,contCX=0,contDPO=0, contDPX=0, contDSO=0, contDSX=0, DS;
+	for(i=0;i<T;i++){
+		for(j=0;j<T;j++){
+			if(matriz[i][j]==' '){
+				y=j;
+				x=i;
+			}
+			DS=i+j;
+			if(matriz[i][j]=='O')
+				contO=contO+1;
+			if(matriz[i][j]=='X')
+				contX=contX+1;
+			if(contO==2&&contX==0){
+				matriz[x][y]='O';
+				*g='1';
+				break;
+			}
+			if(matriz[j][i]=='O')
+				contCO=contCO+1;
+			if(matriz[j][i]=='X')
+				contCX=contCX+1;
+			if(contCO==2&&contCX==0){
+				matriz[y][x]='O';
+				*g='1';
+				break;
+			}
+			if(matriz[j][j]=='O')
+				contDPO=contDPO+1;
+			if(matriz[j][j]=='X')
+				contDPX=contDPX+1;
+			if(contDPO==2&&contDPX==0){
+				matriz[y][y]='O';
+				*g='1';
+				break;
+			}
+			if(DS==2){
+				if(matriz[i][j]=='O')
+					contDSO=contDSO+1;
+				if(matriz[i][j]=='X')
+					contDSX=contDSX+1;
+				if(contDSO==2&&contDSX==0){
+					matriz[x][y]='O';
+					*g='1';
+					break;
+				}
+			}
+		}
+		if(*g=='1')
+			break;
+		contO=0;
+		contX=0;
+		contCO=0;
+		contCX=0;
+		contDPO=0;
+		contDPX=0;
+		x=0;
+		y=0;
+	}
+}
+void maquinaD1(char matriz[][T], char *g){//NÃO FUNCIONA
+	int i, j, x, y, contO=0, contX=0, contCO=0,contCX=0,contDPO=0, contDPX=0, contDSO=0, contDSX=0, DS;
+	for(i=0;i<T;i++){
+		for(j=0;j<T;j++){
+			if(matriz[i][j]==' '){
+				y=j;
+				x=i;
+			}
+			DS=i+j;
+			if(matriz[i][j]=='O')
+				contO=contO+1;
+			if(matriz[i][j]=='X')
+				contX=contX+1;
+			if(contO==0&&contX==2){
+				matriz[x][y]='O';
+				*g='1';
+				break;
+			}
+			if(matriz[j][i]=='O')
+				contCO=contCO+1;
+			if(matriz[j][i]=='X')
+				contCX=contCX+1;
+			if(contCO==0&&contCX==2){
+				matriz[y][x]='O';
+				*g='1';
+				break;
+			}
+			if(matriz[j][j]=='O')
+				contDPO=contDPO+1;
+			if(matriz[j][j]=='X')
+				contDPX=contDPX+1;
+			if(contDPO==0&&contDPX==2){
+				matriz[y][y]='O';
+				*g='1';
+				break;
+			}
+			if(DS==2){
+				if(matriz[i][j]=='O')
+					contDSO=contDSO+1;
+				if(matriz[i][j]=='X')
+					contDSX=contDSX+1;
+				if(contDSO==0&&contDSX==2){
+					matriz[x][y]='O';
+					*g='1';
+					break;
+				}
+			}
+		}
+		if(*g=='1')
+			break;
+		contO=0;
+		contX=0;
+		contCO=0;
+		contCX=0;
+		contDPO=0;
+		contDPX=0;
+		x=0;
+		y=0;
+	}
+}
+char ganhou(char matriz[][T], char y){// FUNCIONANDO ---------- OK
     int i, j,contC=0, contL=0, contDP=0, DS, contDS=0, contVelha=0;
     for(i=0;i<T;i++){
         for(j=0;j<T;j++){
@@ -312,16 +500,16 @@ char ganhou(char matriz[][T], char y){
         return 2;
     return 0;
 }
-void verifica(char matriz[][T], int *l, int *c){
-    if(matriz[*l][*c]=='X'||matriz[*l][*c]=='O'){
+void verifica(char matriz[][T], int *l, int *c){//FUNCIONANDO ---------- OK
+	while(matriz[*l][*c]=='X'||matriz[*l][*c]=='O'){
         printf("Este local ja esta preenchido, por favor escolha outro local\n");
-        printf("Informe a linha: \n");
-        scanf("%d",&*l);
+		printf("Informe a linha: \n");
+        scanf("%d",&*l);fflush(stdin);
         printf("Informe a coluna: \n");
-        scanf("%d",&*c);
-    }
+        scanf("%d",&*c);fflush(stdin);
+	}
 }
-void printJogo(char matriz[][T]){
+void printJogo(char matriz[][T]){//FUNCIONANDO ---------- OK
 	int i,j;
 	for(i=0;i<T;i++){
 		for(j=0;j<T;j++){
