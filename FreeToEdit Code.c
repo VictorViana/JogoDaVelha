@@ -11,8 +11,8 @@ void verifica(char matriz[][T], int *l, int *c);//VERIFICA SE O LOCAL ESCOLHIDO 
 void Facil(char matriz[][T],char player1[t], int z, int comp);//PLAYER VS CPU//MODO FACIL ---------- OK
 void maquinaAleatorio(char matriz[][T], char letra);//SORTEIA UM LOCAL ALEATORIO ---------- OK
 void printJogo(char matriz[][T]);// PRINTA O JOGO NA TELA ---------- OK
-void Dificil(char matriz[][T],char player1[t], int z, int comp);//NIVEL DIFICIL, NÃO FUNCIONANDO
-void maquinaD(char matriz[][T], char g, int A);//NIVEL DIFICIL, NÃO FUNCIONANDO
+void Dificil(char matriz[][T],char player1[t], int comp);//FUNCIONANDO ---------- OK
+void maquinaD(char matriz[][T], char g, int A);//FUNCIONANDO ---------- OK
 void BuscaLinha(char matriz[][T],int A, char *g);//NIVEL DIFICIL, NÃO FUNCIONANDO
 void BuscaColuna(char matriz[][T], int A, char *g);//NIVEL DIFICIL, NÃO FUNCIONANDO
 void BuscaDiagonalP(char matriz[][T], int A, char *g);//NIVEL DIFICIL, NÃO FUNCIONANDO
@@ -114,12 +114,13 @@ int main () {// INICIO MAIN
                     if(z==0){
                         printf("%s comeca\n",nome1);
                         Sleep(1500);
-                        Dificil(jVelha,nome1, z, comp);
+                        Dificil(jVelha,nome1, comp);
                     }
                     else{
+                        comp=1;
                         printf("%s comeca\n",nome2);
                         Sleep(1500);
-                        Dificil(jVelha,nome1, z, comp=1);
+                        Dificil(jVelha,nome1, comp);
                     }
                 }
             }
@@ -220,7 +221,7 @@ void Facil(char matriz[][T],char player1[t], int z, int comp){//FUNCIONANDO ----
             Sleep(1500);
             printf("\t\t...\n");
             Sleep(1500);
-            printf("\t\t  ...\n");
+            printf("\t\t    ...\n");
             Sleep(1500);
             maquinaAleatorio(matriz, letra);
             ganha=ganhou(matriz, letra);
@@ -271,7 +272,7 @@ void Facil(char matriz[][T],char player1[t], int z, int comp){//FUNCIONANDO ----
         }
     }
 }
-void Dificil(char matriz[][T],char player1[t], int z, int comp){//NIVEL DIFICIL, NÃO FUNCIONANDO
+void Dificil(char matriz[][T],char player1[t], int comp){//NIVEL DIFICIL, NÃO FUNCIONANDO
     char g='0';
     int l, c, k, ganha, A=2;
     for(k=0;k<9;k++){
@@ -282,12 +283,12 @@ void Dificil(char matriz[][T],char player1[t], int z, int comp){//NIVEL DIFICIL,
             Sleep(1000);
             printf("*pensando...*\n");
             Sleep(1500);
-            printf("...\n");
+            printf("\t\t...\n");
             Sleep(1500);
-            printf("  ...\n");
+            printf("\t\t    ...\n");
             Sleep(1500);
             maquinaD(matriz, g, A);
-            if(g='0')
+            if(g=='0')
                 maquinaD(matriz, g, A=0);
             if(g=='0')
                 maquinaAleatorio(matriz, g);
@@ -354,30 +355,30 @@ void maquinaAleatorio(char matriz[][T], char letra){//FUNCIONANDO ---------- OK
 void maquinaD(char matriz[][T], char g, int A){//NIVEL DIFICIL, NÃO FUNCIONANDO
     if(A==2){
         BuscaLinha(matriz, A, &g);
-        if(g='1')
+        if(g=='1')
             return;
         BuscaColuna(matriz, A, &g);
-        if(g='1')
+        if(g=='1')
             return;
         BuscaDiagonalP(matriz, A, &g);
-        if(g='1')
+        if(g=='1')
             return;
         BuscaDiagonalS(matriz, A, &g);
-        if(g='1')
+        if(g=='1')
             return;
     }
     else{
         BuscaLinha(matriz, A, &g);
-        if(g='1')
+        if(g=='1')
             return;
         BuscaColuna(matriz, A, &g);
-        if(g='1')
+        if(g=='1')
             return;
         BuscaDiagonalP(matriz, A, &g);
-        if(g='1')
+        if(g=='1')
             return;
         BuscaDiagonalS(matriz, A, &g);
-        if(g='1')
+        if(g=='1')
             return;
     }
 }
